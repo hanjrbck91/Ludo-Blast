@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2870797160127870939}
   - component: {fileID: 110735065084124701}
+  - component: {fileID: 6140163269804828556}
   m_Layer: 0
   m_Name: YellowPawn
   m_TagString: Untagged
@@ -25,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6100201638003605528}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5628767, y: 1.4570298, z: -0.19279738}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.726, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,3 +85,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6140163269804828556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100201638003605528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06c59944cde0f647a766877d9971a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveNow: 0
+  numberOfStepsToMove: 0
+  pathParent: {fileID: 0}
