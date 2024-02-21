@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class RedPawn : PlayerPiece
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnMouseDown()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!isReady)
+        {
+            MakePlayerReadyToMove(pathParent.redPathPoint);
+            return;
+        }
+        numberOfStepsToMove = 5;
+        MoveSteps(pathParent.redPathPoint);
     }
 }

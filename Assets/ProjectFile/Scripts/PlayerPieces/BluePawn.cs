@@ -5,25 +5,15 @@ using UnityEngine;
 
 public class BluePawn : PlayerPiece
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnMouseDown()
     {
-       // MovePlayer();
-       StartCoroutine(MoveSteps_Enum());
-    }
-
-    public void MovePlayer()
-    {
-       
-    }
-
-    IEnumerator MoveSteps_Enum()
-    {
-        for (int i = 0; i < 3; i++)
+        if(!isReady)
         {
-            transform.position = pathParent.commonPathPoints[i].transform.position;
-
-            yield return new WaitForSeconds(0.35f);
+            MakePlayerReadyToMove(pathParent.bluePathPoint);
+            return;
         }
+        numberOfStepsToMove = 5;
+        MoveSteps(pathParent.bluePathPoint);
     }
+   
 }

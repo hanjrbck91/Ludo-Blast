@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class GreenPawn : PlayerPiece
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnMouseDown()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!isReady)
+        {
+            MakePlayerReadyToMove(pathParent.greenPathPoint);
+            return;
+        }
+        numberOfStepsToMove = 5;
+        MoveSteps(pathParent.greenPathPoint);
     }
 }

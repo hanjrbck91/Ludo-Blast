@@ -8,7 +8,7 @@ public class PathObjectParent : MonoBehaviour
     public PathPoint[] redPathPoint;
     public PathPoint[] greenPathPoint;
     public PathPoint[] bluePathPoint;
-    public PathPoint[] yellowPathPoints;
+    public PathPoint[] yellowPathPoint;
 
 
     // Start is called before the first frame update
