@@ -11,7 +11,7 @@ public class YellowPawn : PlayerPiece
             MakePlayerReadyToMove(pathParent.yellowPathPoint);
             return;
         }
-        numberOfStepsToMove = 5;
+        
         MoveSteps(pathParent.yellowPathPoint);
     }
 }

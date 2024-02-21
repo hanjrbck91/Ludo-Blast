@@ -12,7 +12,7 @@ public class BluePawn : PlayerPiece
             MakePlayerReadyToMove(pathParent.bluePathPoint);
             return;
         }
-        numberOfStepsToMove = 5;
+        
         MoveSteps(pathParent.bluePathPoint);
     }
    

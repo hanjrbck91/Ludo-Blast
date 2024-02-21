@@ -28,6 +28,9 @@ public class PlayerPiece : MonoBehaviour
     }
     IEnumerator MoveSteps_Enum(PathPoint[] pathPointsToMoveon_)
     {
+        // Accroding to the dice we need to move the pawn
+        numberOfStepsToMove = GameManager.Instance.numberOfStepsToMove;
+
         for (int i = numberOfStepsAlreadyMoved; i < (numberOfStepsAlreadyMoved + numberOfStepsToMove); i++)
         {
             transform.position = pathPointsToMoveon_[i].transform.position;

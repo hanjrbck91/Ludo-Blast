@@ -11,7 +11,7 @@ public class RedPawn : PlayerPiece
             MakePlayerReadyToMove(pathParent.redPathPoint);
             return;
         }
-        numberOfStepsToMove = 5;
+       
         MoveSteps(pathParent.redPathPoint);
     }
 }
