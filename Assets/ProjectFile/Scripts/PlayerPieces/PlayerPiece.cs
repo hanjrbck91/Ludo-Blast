@@ -10,6 +10,8 @@ public class PlayerPiece : MonoBehaviour
     public int numberOfStepsAlreadyMoved;
     public PathObjectParent pathParent;
 
+    Coroutine MovePlayerPiece;
+
     private void Awake()
     {
         pathParent = FindObjectOfType<PathObjectParent>();
@@ -17,7 +19,7 @@ public class PlayerPiece : MonoBehaviour
 
     public void MoveSteps(PathPoint[] pathPointsToMoveon_)
     {
-        StartCoroutine(MoveSteps_Enum(pathPointsToMoveon_));
+        MovePlayerPiece = StartCoroutine(MoveSteps_Enum(pathPointsToMoveon_));
     }
 
     public void MakePlayerReadyToMove(PathPoint[] pathPointsToMoveon_)
@@ -38,5 +40,12 @@ public class PlayerPiece : MonoBehaviour
             yield return new WaitForSeconds(0.35f);
         }
         numberOfStepsAlreadyMoved += numberOfStepsToMove;
+        GameManager.Instance.numberOfStepsToMove = 0;
+        GameManager.Instance.canPlayerMove = true;
+
+        if (!System.Object.ReferenceEquals(MovePlayerPiece, null))
+        {
+            StopCoroutine("MoveSteps_Enum");
+        }
     }
 }

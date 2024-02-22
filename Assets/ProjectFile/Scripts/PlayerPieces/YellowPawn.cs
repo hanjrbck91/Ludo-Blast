@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class YellowPawn : PlayerPiece
 {
+    RollingDice yellowDice;
+
+    private void Start()
+    {
+        yellowDice = GetComponentInParent<YellowHome>().dice;
+    }
     public void OnMouseDown()
     {
-        if (!isReady)
+        if (!System.Object.ReferenceEquals(GameManager.Instance.rollingDice, null))
         {
-            MakePlayerReadyToMove(pathParent.yellowPathPoint);
-            return;
+            if (!isReady)
+            {
+                if (GameManager.Instance.rollingDice == yellowDice && GameManager.Instance.numberOfStepsToMove == 6)
+                {
+                    MakePlayerReadyToMove(pathParent.yellowPathPoint);
+                    GameManager.Instance.numberOfStepsToMove = 0;
+                    return;
+                }
+
+            }
+            if (GameManager.Instance.rollingDice == yellowDice && isReady && GameManager.Instance.canPlayerMove )
+            {
+                GameManager.Instance.canPlayerMove = false;
+                MoveSteps(pathParent.yellowPathPoint);
+            }
         }
-        
-        MoveSteps(pathParent.yellowPathPoint);
+
     }
 }
