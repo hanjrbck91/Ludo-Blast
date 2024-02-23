@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerPiece : MonoBehaviour
 {
@@ -35,17 +36,43 @@ public class PlayerPiece : MonoBehaviour
 
         for (int i = numberOfStepsAlreadyMoved; i < (numberOfStepsAlreadyMoved + numberOfStepsToMove); i++)
         {
-            transform.position = pathPointsToMoveon_[i].transform.position;
+            if (isPathPointsAvailableToMove(numberOfStepsToMove, numberOfStepsAlreadyMoved, pathPointsToMoveon_))
+            {
+                transform.position = pathPointsToMoveon_[i].transform.position;
 
-            yield return new WaitForSeconds(0.35f);
+                yield return new WaitForSeconds(0.35f);
+            }
         }
-        numberOfStepsAlreadyMoved += numberOfStepsToMove;
-        GameManager.Instance.numberOfStepsToMove = 0;
+
+        if (isPathPointsAvailableToMove(numberOfStepsToMove, numberOfStepsAlreadyMoved, pathPointsToMoveon_))
+        {
+            numberOfStepsAlreadyMoved += numberOfStepsToMove;
+            GameManager.Instance.numberOfStepsToMove = 0;
+        }
+
         GameManager.Instance.canPlayerMove = true;
 
         if (!System.Object.ReferenceEquals(MovePlayerPiece, null))
         {
             StopCoroutine("MoveSteps_Enum");
+        }
+    }
+
+    // To Check wheather player pawn has space to move in the pathpoint or not 
+    bool isPathPointsAvailableToMove(int numOfStepsToMove, int numOfStepsAlreadyMoved, PathPoint[] pathPointsToMoveon_)
+    {
+        if (numberOfStepsToMove == 0)
+        {
+            return false;
+        }
+        int leftNumOfPath = pathPointsToMoveon_.Length - numberOfStepsAlreadyMoved;
+        if (leftNumOfPath >= numberOfStepsToMove)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
