@@ -13,6 +13,10 @@ public class PlayerPiece : MonoBehaviour
 
     Coroutine MovePlayerPiece;
 
+    // Pathpoint variable to store the data of pawns like pawns are in which pathpoint
+    public PathPoint previousPathPoint;
+    public PathPoint currentPathPoint;
+
     private void Awake()
     {
         pathParent = FindObjectOfType<PathObjectParent>();
@@ -28,6 +32,12 @@ public class PlayerPiece : MonoBehaviour
         isReady = true;
         transform.position = pathPointsToMoveon_[0].transform.position;
         numberOfStepsAlreadyMoved = 1;
+
+        // will store the pawn data in pathpoints
+        previousPathPoint = pathPointsToMoveon_[0];
+        currentPathPoint = pathPointsToMoveon_[0];
+        currentPathPoint.AddPlayerPiece(this);
+        GameManager.Instance.AddPathPoint(currentPathPoint);
     }
     IEnumerator MoveSteps_Enum(PathPoint[] pathPointsToMoveon_)
     {
@@ -48,6 +58,17 @@ public class PlayerPiece : MonoBehaviour
         {
             numberOfStepsAlreadyMoved += numberOfStepsToMove;
             GameManager.Instance.numberOfStepsToMove = 0;
+
+            // will remove the current pathpoint from the list 
+            GameManager.Instance.RemovePathPoints(previousPathPoint);
+            currentPathPoint = pathPointsToMoveon_[numberOfStepsAlreadyMoved - 1];
+            previousPathPoint.RemovePlayerPiece(this);
+
+            // add the new pathpoint 
+            currentPathPoint.AddPlayerPiece(this);
+            GameManager.Instance.AddPathPoint(currentPathPoint);
+            previousPathPoint = currentPathPoint; // To store the current pathpont in order to update in the next dice roll
+            
         }
 
         GameManager.Instance.canPlayerMove = true;

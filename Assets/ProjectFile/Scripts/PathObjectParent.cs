@@ -9,4 +9,9 @@ public class PathObjectParent : MonoBehaviour
     public PathPoint[] greenPathPoint;
     public PathPoint[] bluePathPoint;
     public PathPoint[] yellowPathPoint;
+
+    [Header("Scale and Position Difference of Pawn")]
+    public float[] scales;
+    public float[] positionDifference;
+
 }
