@@ -10,7 +10,7 @@ public class RollingDice : MonoBehaviour
     [SerializeField] int numberGot;
 
     Coroutine generateRandomNumOnDice;
-    public bool canDiceRoll = true;
+    
 
 
     public void OnMouseDown()
@@ -23,9 +23,9 @@ public class RollingDice : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        if(canDiceRoll)
+        if(GameManager.Instance.canDiceRoll)
         {
-            canDiceRoll = false;
+            GameManager.Instance.canDiceRoll = false;
             numberSpriteHolder.gameObject.SetActive(false);
             rollingDiceAnimation.gameObject.SetActive(true);
 
@@ -45,9 +45,17 @@ public class RollingDice : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
 
-            canDiceRoll = true;
+            //GameManager.Instance.canDiceRoll = true;
+            if (GameManager.Instance.numberOfStepsToMove != 6 && GameManager.Instance.blueOutPlayers == 0)
+            {
+                GameManager.Instance.canDiceRoll = true;
+                GameManager.Instance.selfDice = false;
+                GameManager.Instance.transferDice = true;
 
-            if(!System.Object.ReferenceEquals(generateRandomNumOnDice,null))
+                GameManager.Instance.RollingDiceManager();
+            }
+
+            if (!System.Object.ReferenceEquals(generateRandomNumOnDice,null))
             {
                 StopCoroutine(RollingTheDice());
             }

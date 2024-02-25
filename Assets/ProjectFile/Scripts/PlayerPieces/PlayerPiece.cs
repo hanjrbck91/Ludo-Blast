@@ -38,6 +38,11 @@ public class PlayerPiece : MonoBehaviour
         currentPathPoint = pathPointsToMoveon_[0];
         currentPathPoint.AddPlayerPiece(this);
         GameManager.Instance.AddPathPoint(currentPathPoint);
+
+        // Dice managment 
+        GameManager.Instance.canDiceRoll = true;
+        GameManager.Instance.selfDice = true;
+        GameManager.Instance.transferDice = false;
     }
     IEnumerator MoveSteps_Enum(PathPoint[] pathPointsToMoveon_)
     {
@@ -72,6 +77,8 @@ public class PlayerPiece : MonoBehaviour
         }
 
         GameManager.Instance.canPlayerMove = true;
+
+        GameManager.Instance.RollingDiceManager();
 
         if (!System.Object.ReferenceEquals(MovePlayerPiece, null))
         {
