@@ -10,6 +10,8 @@ public class PathObjectParent : MonoBehaviour
     public PathPoint[] bluePathPoint;
     public PathPoint[] yellowPathPoint;
 
+    public PathPoint[] pawnHomePathPoints;
+
     [Header("Scale and Position Difference of Pawn")]
     public float[] scales;
     public float[] positionDifference;

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PathPoint : MonoBehaviour
@@ -14,7 +16,7 @@ public class PathPoint : MonoBehaviour
 
     public bool AddPlayerPiece(PlayerPiece playerPiece)
     {
-        if(PlayerPieceList.Count > 0)
+        if(PlayerPieceList.Count == 1)
         {
             string previousPlayerPieceName = PlayerPieceList[0].name;
             string currentPlayerPieceName = playerPiece.name;
@@ -24,7 +26,7 @@ public class PathPoint : MonoBehaviour
             {
                 PlayerPieceList[0].isReady = false;
 
-                PlayerPieceList[0].transform.position = new Vector3(0, 0, 0);
+                revertPlayerPieceToStart(PlayerPieceList[0]);
 
                 PlayerPieceList[0].numberOfStepsAlreadyMoved = 0;
                 RemovePlayerPiece(PlayerPieceList[0]);
@@ -38,6 +40,31 @@ public class PathPoint : MonoBehaviour
         addPlayer(playerPiece);
 
         return true;
+    }
+
+    private void revertPlayerPieceToStart(PlayerPiece playerPiece)
+    {
+
+
+        PlayerPieceList[0].transform.position = pathObjectParent.pawnHomePathPoints[BasePointPosition(playerPiece.name)].transform.position;
+    }
+
+    int BasePointPosition(string name)
+    {
+        if (name.Contains("Blue")) { GameManager.Instance.blueOutPlayers -= 1; }
+        else if (name.Contains("Red")) { GameManager.Instance.redOutPlayers -= 1; }
+        else if (name.Contains("Green")) { GameManager.Instance.greenOutPlayers -= 1; }
+        else if (name.Contains("Yellow")) { GameManager.Instance.yellowOutPlayers -= 1; }
+
+        for (int i = 0; i < pathObjectParent.pawnHomePathPoints.Length; i++)
+        {
+            if (pathObjectParent.pawnHomePathPoints[i].name == name)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     void addPlayer(PlayerPiece playerPiece)
