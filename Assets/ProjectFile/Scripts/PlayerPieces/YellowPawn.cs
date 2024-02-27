@@ -18,6 +18,9 @@ public class YellowPawn : PlayerPiece
             {
                 if (GameManager.Instance.rollingDice == yellowDice && GameManager.Instance.numberOfStepsToMove == 6)
                 {
+                    // number out player in the scene
+                    GameManager.Instance.yellowOutPlayers += 1;
+
                     MakePlayerReadyToMove(pathParent.yellowPathPoint);
                     GameManager.Instance.numberOfStepsToMove = 0;
                     return;

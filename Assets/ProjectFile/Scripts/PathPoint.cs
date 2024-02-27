@@ -12,7 +12,35 @@ public class PathPoint : MonoBehaviour
         pathObjectParent = FindObjectOfType<PathObjectParent>();
     }
 
-    public void AddPlayerPiece(PlayerPiece playerPiece)
+    public bool AddPlayerPiece(PlayerPiece playerPiece)
+    {
+        if(PlayerPieceList.Count > 0)
+        {
+            string previousPlayerPieceName = PlayerPieceList[0].name;
+            string currentPlayerPieceName = playerPiece.name;
+            currentPlayerPieceName = currentPlayerPieceName.Substring(0, currentPlayerPieceName.Length - 4);
+
+            if (!previousPlayerPieceName.Contains(currentPlayerPieceName))
+            {
+                PlayerPieceList[0].isReady = false;
+
+                PlayerPieceList[0].transform.position = new Vector3(0, 0, 0);
+
+                PlayerPieceList[0].numberOfStepsAlreadyMoved = 0;
+                RemovePlayerPiece(PlayerPieceList[0]);
+                PlayerPieceList.Add(playerPiece);
+
+                return false;
+            }
+        }
+
+        
+        addPlayer(playerPiece);
+
+        return true;
+    }
+
+    void addPlayer(PlayerPiece playerPiece)
     {
         PlayerPieceList.Add(playerPiece);
         RescaleAndRepositionAllPlayerPiece();

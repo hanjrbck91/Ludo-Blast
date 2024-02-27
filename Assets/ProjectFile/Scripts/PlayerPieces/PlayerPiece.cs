@@ -46,6 +46,7 @@ public class PlayerPiece : MonoBehaviour
     }
     IEnumerator MoveSteps_Enum(PathPoint[] pathPointsToMoveon_)
     {
+        yield return new WaitForSeconds(0.25f);
         // Accroding to the dice we need to move the pawn
         numberOfStepsToMove = GameManager.Instance.numberOfStepsToMove;
 
@@ -62,18 +63,29 @@ public class PlayerPiece : MonoBehaviour
         if (isPathPointsAvailableToMove(numberOfStepsToMove, numberOfStepsAlreadyMoved, pathPointsToMoveon_))
         {
             numberOfStepsAlreadyMoved += numberOfStepsToMove;
-            GameManager.Instance.numberOfStepsToMove = 0;
 
             // will remove the current pathpoint from the list 
             GameManager.Instance.RemovePathPoints(previousPathPoint);
-            currentPathPoint = pathPointsToMoveon_[numberOfStepsAlreadyMoved - 1];
             previousPathPoint.RemovePlayerPiece(this);
+            currentPathPoint = pathPointsToMoveon_[numberOfStepsAlreadyMoved - 1];
 
             // add the new pathpoint 
             currentPathPoint.AddPlayerPiece(this);
             GameManager.Instance.AddPathPoint(currentPathPoint);
             previousPathPoint = currentPathPoint; // To store the current pathpont in order to update in the next dice roll
-            
+
+            if (GameManager.Instance.numberOfStepsToMove != 6)
+            {
+                GameManager.Instance.selfDice = false;
+                GameManager.Instance.transferDice = true;
+            }
+            else
+            {
+                GameManager.Instance.selfDice = true;
+                GameManager.Instance.transferDice = false;
+            }
+
+            GameManager.Instance.numberOfStepsToMove = 0;
         }
 
         GameManager.Instance.canPlayerMove = true;

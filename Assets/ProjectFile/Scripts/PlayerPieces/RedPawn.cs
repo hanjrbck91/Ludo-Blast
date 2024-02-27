@@ -18,6 +18,9 @@ public class RedPawn : PlayerPiece
             {
                 if (GameManager.Instance.rollingDice == redDice && GameManager.Instance.numberOfStepsToMove == 6)
                 {
+                    // number out player in the scene
+                    GameManager.Instance.redOutPlayers += 1;
+
                     MakePlayerReadyToMove(pathParent.redPathPoint);
                     GameManager.Instance.numberOfStepsToMove = 0;
                     return;

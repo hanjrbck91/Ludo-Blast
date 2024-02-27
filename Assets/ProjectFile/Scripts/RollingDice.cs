@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class RollingDice : MonoBehaviour
@@ -10,7 +11,8 @@ public class RollingDice : MonoBehaviour
     [SerializeField] int numberGot;
 
     Coroutine generateRandomNumOnDice;
-    
+    // variable to store the outpieces of which color when dice rolled
+    public int outPieces;
 
 
     public void OnMouseDown()
@@ -45,13 +47,19 @@ public class RollingDice : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
 
+            if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[0]) { outPieces = GameManager.Instance.blueOutPlayers; }
+            else if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[1]) { outPieces = GameManager.Instance.redOutPlayers; }
+            else if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[2]) { outPieces = GameManager.Instance.greenOutPlayers; }
+            else if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[3]) { outPieces = GameManager.Instance.yellowOutPlayers; }
+
             //GameManager.Instance.canDiceRoll = true;
-            if (GameManager.Instance.numberOfStepsToMove != 6 && GameManager.Instance.blueOutPlayers == 0)
+            if (GameManager.Instance.numberOfStepsToMove != 6 && outPieces == 0)
             {
                 GameManager.Instance.canDiceRoll = true;
                 GameManager.Instance.selfDice = false;
                 GameManager.Instance.transferDice = true;
 
+                yield return new WaitForSeconds(0.5f);
                 GameManager.Instance.RollingDiceManager();
             }
 

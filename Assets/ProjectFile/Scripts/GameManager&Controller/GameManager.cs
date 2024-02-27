@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public int blueOutPlayers;
     public int redOutPlayers;
     public int yellowOutPlayers;
-    public int greenInPlayers;
+    public int greenOutPlayers;
 
     public RollingDice[] manageRollingDice;
 
@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
                     GameManager.Instance.manageRollingDice[nextDice].gameObject.SetActive(true);    
                 }
             }
+            GameManager.Instance.canDiceRoll = true;
         }
         else
         {
