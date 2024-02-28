@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PathPoint : MonoBehaviour
 {
+    PathPoint[] pathPointsToMoveon;
     public PathObjectParent pathObjectParent;
     public List<PlayerPiece> PlayerPieceList = new List<PlayerPiece>();
 
@@ -26,7 +27,7 @@ public class PathPoint : MonoBehaviour
             {
                 PlayerPieceList[0].isReady = false;
 
-                revertPlayerPieceToStart(PlayerPieceList[0]);
+                StartCoroutine(revertPlayerPieceToStart(PlayerPieceList[0]));
 
                 PlayerPieceList[0].numberOfStepsAlreadyMoved = 0;
                 RemovePlayerPiece(PlayerPieceList[0]);
@@ -42,20 +43,25 @@ public class PathPoint : MonoBehaviour
         return true;
     }
 
-    private void revertPlayerPieceToStart(PlayerPiece playerPiece)
+    private IEnumerator revertPlayerPieceToStart(PlayerPiece playerPiece)
     {
+        if (playerPiece.name.Contains("Blue")) { GameManager.Instance.blueOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.bluePathPoint; }
+        else if (playerPiece.name.Contains("Red")) { GameManager.Instance.redOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.redPathPoint; }
+        else if (playerPiece.name.Contains("Green")) { GameManager.Instance.greenOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.greenPathPoint; }
+        else if (playerPiece.name.Contains("Yellow")) { GameManager.Instance.yellowOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.yellowPathPoint; }
 
+        for (int i = playerPiece.numberOfStepsAlreadyMoved-1; i >= 0; i--)
+        {
+            playerPiece.transform.position = pathPointsToMoveon[i].transform.position;
 
-        PlayerPieceList[0].transform.position = pathObjectParent.pawnHomePathPoints[BasePointPosition(playerPiece.name)].transform.position;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        playerPiece.transform.position = pathObjectParent.pawnHomePathPoints[BasePointPosition(playerPiece.name)].transform.position;
     }
 
     int BasePointPosition(string name)
     {
-        if (name.Contains("Blue")) { GameManager.Instance.blueOutPlayers -= 1; }
-        else if (name.Contains("Red")) { GameManager.Instance.redOutPlayers -= 1; }
-        else if (name.Contains("Green")) { GameManager.Instance.greenOutPlayers -= 1; }
-        else if (name.Contains("Yellow")) { GameManager.Instance.yellowOutPlayers -= 1; }
-
         for (int i = 0; i < pathObjectParent.pawnHomePathPoints.Length; i++)
         {
             if (pathObjectParent.pawnHomePathPoints[i].name == name)
