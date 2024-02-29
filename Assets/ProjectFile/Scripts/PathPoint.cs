@@ -17,27 +17,30 @@ public class PathPoint : MonoBehaviour
 
     public bool AddPlayerPiece(PlayerPiece playerPiece)
     {
-        if(PlayerPieceList.Count == 1)
+        if (this.name != "PathPoint" && this.name != "PathPoint_8" && this.name != "PathPoint_13" && this.name != "PathPoint_21"
+            && this.name != "PathPoint_26" && this.name != "PathPoint_34" && this.name != "PathPoint_39" && this.name != "PathPoint_47")
         {
-            string previousPlayerPieceName = PlayerPieceList[0].name;
-            string currentPlayerPieceName = playerPiece.name;
-            currentPlayerPieceName = currentPlayerPieceName.Substring(0, currentPlayerPieceName.Length - 4);
-
-            if (!previousPlayerPieceName.Contains(currentPlayerPieceName))
+            if (PlayerPieceList.Count == 1)
             {
-                PlayerPieceList[0].isReady = false;
+                string previousPlayerPieceName = PlayerPieceList[0].name;
+                string currentPlayerPieceName = playerPiece.name;
+                currentPlayerPieceName = currentPlayerPieceName.Substring(0, currentPlayerPieceName.Length - 4);
 
-                StartCoroutine(revertPlayerPieceToStart(PlayerPieceList[0]));
+                if (!previousPlayerPieceName.Contains(currentPlayerPieceName))
+                {
+                    PlayerPieceList[0].isReady = false;
 
-                PlayerPieceList[0].numberOfStepsAlreadyMoved = 0;
-                RemovePlayerPiece(PlayerPieceList[0]);
-                PlayerPieceList.Add(playerPiece);
+                    StartCoroutine(revertPlayerPieceToStart(PlayerPieceList[0]));
 
-                return false;
+                    PlayerPieceList[0].numberOfStepsAlreadyMoved = 0;
+                    RemovePlayerPiece(PlayerPieceList[0]);
+                    PlayerPieceList.Add(playerPiece);
+
+                    return false;
+                }
             }
         }
 
-        
         addPlayer(playerPiece);
 
         return true;
