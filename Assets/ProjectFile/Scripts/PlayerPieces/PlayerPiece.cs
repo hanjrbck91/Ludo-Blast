@@ -62,6 +62,7 @@ public class PlayerPiece : MonoBehaviour
 
         if (isPathPointsAvailableToMove(numberOfStepsToMove, numberOfStepsAlreadyMoved, pathPointsToMoveon_))
         {
+            GameManager.Instance.transferDice = false;
             numberOfStepsAlreadyMoved += numberOfStepsToMove;
 
             // will remove the current pathpoint from the list 
@@ -70,20 +71,34 @@ public class PlayerPiece : MonoBehaviour
             currentPathPoint = pathPointsToMoveon_[numberOfStepsAlreadyMoved - 1];
 
             // add the new pathpoint 
-            currentPathPoint.AddPlayerPiece(this);
-            GameManager.Instance.AddPathPoint(currentPathPoint);
-            previousPathPoint = currentPathPoint; // To store the current pathpont in order to update in the next dice roll
-
-            if (GameManager.Instance.numberOfStepsToMove != 6)
+            if(currentPathPoint.AddPlayerPiece(this))
             {
-                GameManager.Instance.selfDice = false;
-                GameManager.Instance.transferDice = true;
+                if(numberOfStepsAlreadyMoved == 57)
+                {
+                    GameManager.Instance.selfDice = true;
+                }
+                else
+                {
+                    if (GameManager.Instance.numberOfStepsToMove != 6)
+                    {
+                        GameManager.Instance.selfDice = false;
+                        GameManager.Instance.transferDice = true;
+                    }
+                    else
+                    {
+                        GameManager.Instance.selfDice = true;
+                        GameManager.Instance.transferDice = false;
+                    }
+                }
             }
             else
             {
                 GameManager.Instance.selfDice = true;
-                GameManager.Instance.transferDice = false;
             }
+
+
+            GameManager.Instance.AddPathPoint(currentPathPoint);
+            previousPathPoint = currentPathPoint; // To store the current pathpont in order to update in the next dice roll
 
             GameManager.Instance.numberOfStepsToMove = 0;
         }
