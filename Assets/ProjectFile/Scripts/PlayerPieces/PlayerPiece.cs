@@ -52,6 +52,7 @@ public class PlayerPiece : MonoBehaviour
 
         for (int i = numberOfStepsAlreadyMoved; i < (numberOfStepsAlreadyMoved + numberOfStepsToMove); i++)
         {
+            currentPathPoint.RescaleAndRepositionAllPlayerPiece();
             if (isPathPointsAvailableToMove(numberOfStepsToMove, numberOfStepsAlreadyMoved, pathPointsToMoveon_))
             {
                 transform.position = pathPointsToMoveon_[i].transform.position;
