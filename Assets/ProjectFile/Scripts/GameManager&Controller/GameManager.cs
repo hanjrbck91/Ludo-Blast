@@ -24,7 +24,19 @@ public class GameManager : MonoBehaviour
     public int yellowOutPlayers;
     public int greenOutPlayers;
 
+    public int blueCompletePlayers;
+    public int redCompletePlayers;
+    public int yellowCompletePlayers;
+    public int greenCompletePlayers;
+
     public RollingDice[] manageRollingDice;
+
+    public PlayerPiece[] bluePlayerPiece;
+    public PlayerPiece[] redPlayerPiece;
+    public PlayerPiece[] yellowPlayerPiece;
+    public PlayerPiece[] greenPlayerPiece;
+
+    public int totalPlayerCanPlay;
 
 
     private void Awake()

@@ -1,27 +1,60 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    // Method to advance to the next scene index
-    public void LoadNextScene()
+    public GameObject MainPanel;
+    public GameObject GamePanel;
+
+    public void PlayTwo()
     {
-        // Get the current scene index
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        GameManager.Instance.totalPlayerCanPlay = 2;
+        MainPanel.SetActive(false);
+        GamePanel.SetActive(true);
+        PlayerTwoSetting();
+        Debug.Log("hi");
+    }
 
-        // Advance to the next scene index
-        int nextSceneIndex = currentSceneIndex + 1;
+    public void PlayThree()
+    {
+        GameManager.Instance.totalPlayerCanPlay = 3;
+        MainPanel.SetActive(false);
+        GamePanel.SetActive(true);
+        PlayerThreeSetting();
+    }
 
-        // Check if there's a scene at the next index
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+    public void PlayFour()
+    {
+        GameManager.Instance.totalPlayerCanPlay = 4;
+        MainPanel.SetActive(false);
+        GamePanel.SetActive(true);
+    }
+
+    public void PlayComputer()
+    {
+        GameManager.Instance.totalPlayerCanPlay = 1;
+        MainPanel.SetActive(false);
+        GamePanel.SetActive(true);
+        PlayerTwoSetting();
+    }
+
+    void PlayerTwoSetting()
+    {
+        HidePlayers(GameManager.Instance.redPlayerPiece);
+        HidePlayers(GameManager.Instance.yellowPlayerPiece);
+    }
+
+    void PlayerThreeSetting()
+    {
+        HidePlayers(GameManager.Instance.yellowPlayerPiece);
+    }
+
+    private void HidePlayers(PlayerPiece[] PlayerPiece)
+    {
+        for (int i = 0; i < PlayerPiece.Length; i++)
         {
-            // Load the next scene
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            // If there's no next scene, print a message
-            Debug.LogWarning("There is no next scene available.");
+            PlayerPiece[i].gameObject.SetActive(false);
         }
     }
 }

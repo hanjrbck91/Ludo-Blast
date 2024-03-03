@@ -17,6 +17,11 @@ public class PathPoint : MonoBehaviour
 
     public bool AddPlayerPiece(PlayerPiece playerPiece)
     {
+        if(this.name == "PathPoint_5")
+        {
+            PathCompleted(playerPiece);
+        }
+
         if (this.name != "PathPoint" && this.name != "PathPoint_8" && this.name != "PathPoint_13" && this.name != "PathPoint_21"
             && this.name != "PathPoint_26" && this.name != "PathPoint_34" && this.name != "PathPoint_39" && this.name != "PathPoint_47")
         {
@@ -46,12 +51,20 @@ public class PathPoint : MonoBehaviour
         return true;
     }
 
+    private void PathCompleted(PlayerPiece playerPiece)
+    {
+        if (playerPiece.name.Contains("Blue")) { GameManager.Instance.blueCompletePlayers += 1; GameManager.Instance.blueOutPlayers -= 1;  }
+        else if (playerPiece.name.Contains("Red")) { GameManager.Instance.redCompletePlayers += 1; GameManager.Instance.redOutPlayers -= 1;  }
+        else if (playerPiece.name.Contains("Green")) { GameManager.Instance.greenCompletePlayers += 1; GameManager.Instance.greenOutPlayers -= 1;  }
+        else if (playerPiece.name.Contains("Yellow")) { GameManager.Instance.yellowCompletePlayers += 1; GameManager.Instance.yellowOutPlayers -= 1; }
+    }
+
     private IEnumerator revertPlayerPieceToStart(PlayerPiece playerPiece)
     {
-        if (playerPiece.name.Contains("Blue")) { GameManager.Instance.blueOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.bluePathPoint; }
-        else if (playerPiece.name.Contains("Red")) { GameManager.Instance.redOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.redPathPoint; }
-        else if (playerPiece.name.Contains("Green")) { GameManager.Instance.greenOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.greenPathPoint; }
-        else if (playerPiece.name.Contains("Yellow")) { GameManager.Instance.yellowOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.yellowPathPoint; }
+        if (playerPiece.name.Contains("Blue")) { GameManager.Instance.blueOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.bluePathPoint; if (GameManager.Instance.blueCompletePlayers == 4) { ShowWinningCelebration(); } }
+        else if (playerPiece.name.Contains("Red")) { GameManager.Instance.redOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.redPathPoint; if (GameManager.Instance.redCompletePlayers == 4) { ShowWinningCelebration(); } }
+        else if (playerPiece.name.Contains("Green")) { GameManager.Instance.greenOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.greenPathPoint; if (GameManager.Instance.greenCompletePlayers == 4) { ShowWinningCelebration(); } }
+        else if (playerPiece.name.Contains("Yellow")) { GameManager.Instance.yellowOutPlayers -= 1; pathPointsToMoveon = pathObjectParent.yellowPathPoint; if (GameManager.Instance.yellowCompletePlayers == 4) { ShowWinningCelebration(); }  }
 
         for (int i = playerPiece.numberOfStepsAlreadyMoved-1; i >= 0; i--)
         {
@@ -61,6 +74,11 @@ public class PathPoint : MonoBehaviour
         }
 
         playerPiece.transform.position = pathObjectParent.pawnHomePathPoints[BasePointPosition(playerPiece.name)].transform.position;
+    }
+
+    private void ShowWinningCelebration()
+    {
+        throw new NotImplementedException();
     }
 
     int BasePointPosition(string name)
