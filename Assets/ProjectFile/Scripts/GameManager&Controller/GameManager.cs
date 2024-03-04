@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
@@ -63,18 +64,10 @@ public class GameManager : MonoBehaviour
 
     public void RollingDiceManager()
     {
-        int nextDice;
         if(GameManager.Instance.transferDice)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                if (i == 3) { nextDice = 0; } else { nextDice = i + 1; }
-                if(GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[i])
-                {
-                    GameManager.Instance.manageRollingDice[i].gameObject.SetActive(false);
-                    GameManager.Instance.manageRollingDice[nextDice].gameObject.SetActive(true);    
-                }
-            }
+            ShiftDice();
+            
             GameManager.Instance.canDiceRoll = true;
         }
         else
@@ -83,6 +76,54 @@ public class GameManager : MonoBehaviour
             {
                 GameManager.Instance.selfDice = false;
                 GameManager.Instance.canDiceRoll = true;
+            }
+        }
+    }
+
+    private void ShiftDice()
+    {
+
+        int nextDice;
+
+        if (GameManager.Instance.totalPlayerCanPlay == 1)
+        {
+
+        }
+        else if(GameManager.Instance.totalPlayerCanPlay == 2)
+        {
+            if(GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[0])
+            {
+                GameManager.Instance.manageRollingDice[0].gameObject.SetActive(false);
+                GameManager.Instance.manageRollingDice[2].gameObject.SetActive(true);
+            }
+            else
+            {
+                GameManager.Instance.manageRollingDice[0].gameObject.SetActive(true);
+                GameManager.Instance.manageRollingDice[2].gameObject.SetActive(false);
+            }
+        }
+        else if(GameManager.Instance.totalPlayerCanPlay ==3)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == 2) { nextDice = 0; } else { nextDice = i + 1; }
+                if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[i])
+                {
+                    GameManager.Instance.manageRollingDice[i].gameObject.SetActive(false);
+                    GameManager.Instance.manageRollingDice[nextDice].gameObject.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (i == 3) { nextDice = 0; } else { nextDice = i + 1; }
+                if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[i])
+                {
+                    GameManager.Instance.manageRollingDice[i].gameObject.SetActive(false);
+                    GameManager.Instance.manageRollingDice[nextDice].gameObject.SetActive(true);
+                }
             }
         }
     }
