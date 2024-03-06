@@ -66,7 +66,10 @@ public class GameManager : MonoBehaviour
     {
         if(GameManager.Instance.transferDice)
         {
-            ShiftDice();
+            if(GameManager.Instance.transferDice)
+            {
+                ShiftDice();
+            }
             
             GameManager.Instance.canDiceRoll = true;
         }
