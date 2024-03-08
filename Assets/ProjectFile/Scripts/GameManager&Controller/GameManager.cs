@@ -79,8 +79,22 @@ public class GameManager : MonoBehaviour
             {
                 GameManager.Instance.selfDice = false;
                 GameManager.Instance.canDiceRoll = true;
+                GameManager.Instance.SelfRoll();
             }
         }
+    }
+
+    public void SelfRoll()
+    {
+        if(GameManager.Instance.totalPlayerCanPlay == 1 && GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[2])
+        {
+            Invoke("Rolled", 0.6f);
+        }
+    }
+
+    public void Rolled()
+    {
+        GameManager.Instance.manageRollingDice[2].MouseRoll();
     }
 
     private void ShiftDice()
@@ -90,7 +104,21 @@ public class GameManager : MonoBehaviour
 
         if (GameManager.Instance.totalPlayerCanPlay == 1)
         {
+            if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[0])
+            {
+                GameManager.Instance.manageRollingDice[0].gameObject.SetActive(false);
+                GameManager.Instance.manageRollingDice[2].gameObject.SetActive(true);
 
+                passOut(0);
+
+                GameManager.Instance.manageRollingDice[2].MouseRoll();
+            }
+            else
+            {
+                GameManager.Instance.manageRollingDice[0].gameObject.SetActive(true);
+                GameManager.Instance.manageRollingDice[2].gameObject.SetActive(false);
+                passOut(2);
+            }
         }
         else if(GameManager.Instance.totalPlayerCanPlay == 2)
         {
@@ -98,11 +126,13 @@ public class GameManager : MonoBehaviour
             {
                 GameManager.Instance.manageRollingDice[0].gameObject.SetActive(false);
                 GameManager.Instance.manageRollingDice[2].gameObject.SetActive(true);
+                passOut(0);
             }
             else
             {
                 GameManager.Instance.manageRollingDice[0].gameObject.SetActive(true);
                 GameManager.Instance.manageRollingDice[2].gameObject.SetActive(false);
+                passOut(2);
             }
         }
         else if(GameManager.Instance.totalPlayerCanPlay ==3)
@@ -110,6 +140,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 if (i == 2) { nextDice = 0; } else { nextDice = i + 1; }
+                i = passOut(i);
                 if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[i])
                 {
                     GameManager.Instance.manageRollingDice[i].gameObject.SetActive(false);
@@ -122,6 +153,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (i == 3) { nextDice = 0; } else { nextDice = i + 1; }
+                i = passOut(i);
                 if (GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[i])
                 {
                     GameManager.Instance.manageRollingDice[i].gameObject.SetActive(false);
@@ -129,5 +161,15 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private int passOut(int i)
+    {
+        if (i == 0) { if (GameManager.Instance.blueCompletePlayers == 4) { return (i + 1); } }
+        else if (i == 1) { if(GameManager.Instance.blueCompletePlayers == 4) { return (i + 1); } }
+        else if (i == 2) { if (GameManager.Instance.blueCompletePlayers == 4) { return (i + 1); } }
+        else if (i == 3) { if (GameManager.Instance.blueCompletePlayers == 4) { return (i + 1); } }
+        
+        return i;
     }
 }
