@@ -57,6 +57,8 @@ public class PlayerPiece : MonoBehaviour
             {
                 transform.position = pathPointsToMoveon_[i].transform.position;
 
+                GameManager.Instance.pawnMovementSound.Play();
+
                 yield return new WaitForSeconds(0.35f);
             }
         }

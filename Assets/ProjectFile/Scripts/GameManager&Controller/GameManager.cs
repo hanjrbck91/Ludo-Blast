@@ -39,10 +39,12 @@ public class GameManager : MonoBehaviour
 
     public int totalPlayerCanPlay;
 
+    public AudioSource pawnMovementSound;
 
     private void Awake()
     {
         Instance = this;
+        pawnMovementSound = GetComponent<AudioSource>();
     }
 
     public void AddPathPoint(PathPoint pathPoint)

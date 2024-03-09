@@ -44,6 +44,7 @@ public class RollingDice : MonoBehaviour
 
         if(GameManager.Instance.canDiceRoll)
         {
+            Dice.Instance.PlaySound();
             GameManager.Instance.canDiceRoll = false;
             numberSpriteHolder.gameObject.SetActive(false);
             rollingDiceAnimation.gameObject.SetActive(true);
@@ -91,14 +92,14 @@ public class RollingDice : MonoBehaviour
                     {
                         MakePlayerReadyToMove(0);
                     }
-                    else if(outPieces == 1 && numberGot != 6 && GameManager.Instance.canPlayerMove)
+                    else if (outPieces == 1 && numberGot != 6 && GameManager.Instance.canPlayerMove)
                     {
                         int playerPiecePosition = CheckoutPlayer();
 
                         if (playerPiecePosition >= 0)
                         {
                             GameManager.Instance.canPlayerMove = false;
-                            MovePlayerPiece = StartCoroutine(MoveSteps_Enum(playerPiecePosition)); 
+                            MovePlayerPiece = StartCoroutine(MoveSteps_Enum(playerPiecePosition));
                         }
                         else
                         {
@@ -109,9 +110,9 @@ public class RollingDice : MonoBehaviour
                             else { GameManager.Instance.selfDice = true; }
                         }
                     }
-                    else if(GameManager.Instance.totalPlayerCanPlay == 1 && GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[2])
+                    else if (GameManager.Instance.totalPlayerCanPlay == 1 && GameManager.Instance.rollingDice == GameManager.Instance.manageRollingDice[2])
                     {
-                        if(numberGot == 6 && outPieces < 4 )
+                        if (numberGot == 6 && outPieces < 4)
                         {
                             MakePlayerReadyToMove(OutPlayerToMove());
                         }
@@ -132,6 +133,15 @@ public class RollingDice : MonoBehaviour
                                 if (numberGot != 6) { GameManager.Instance.transferDice = true; }
                                 else { GameManager.Instance.selfDice = true; }
                             }
+                        }
+                    }
+                    else
+                    {
+                        if (CheckoutPlayer() < 0)
+                        {
+                            yield return new WaitForSeconds(0.5f);
+                            if(numberGot != 6) { GameManager.Instance.transferDice = true; }
+                            else { GameManager.Instance.selfDice = true; }
                         }
                     }
                 }
@@ -274,6 +284,8 @@ public class RollingDice : MonoBehaviour
             if (isPathPointsAvailableToMove(numberOfStepsToMove, outPlayerPiece.numberOfStepsAlreadyMoved, pathPointToMoveOn))
             {
                 outPlayerPiece.transform.position = pathPointToMoveOn[i].transform.position;
+
+                GameManager.Instance.pawnMovementSound.Play();
 
                 yield return new WaitForSeconds(0.35f);
             }
