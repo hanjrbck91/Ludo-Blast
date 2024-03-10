@@ -20,6 +20,8 @@ public class RollingDice : MonoBehaviour
     Coroutine MovePlayerPiece;
     PlayerPiece outPlayerPiece;
 
+    int maxNum = 6;
+
     private void Awake()
     {
         pathParent = FindObjectOfType<PathObjectParent>();
@@ -51,7 +53,11 @@ public class RollingDice : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            numberDiceGot = Random.Range(0, 6);
+            if (GameManager.Instance.totalSix == 2) { maxNum = 5; }
+            numberDiceGot = Random.Range(0, maxNum);
+            
+            // counting the number of 6 coming consecutively 
+            if(numberDiceGot == 6) { GameManager.Instance.totalSix += 6; } else { GameManager.Instance.totalSix = 0; }
             numberSpriteHolder.sprite = numberSprites[numberDiceGot];
             numberDiceGot += 1;
 

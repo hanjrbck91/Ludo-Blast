@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public int totalPlayerCanPlay;
 
+    public int totalSix = 0;
     public AudioSource pawnMovementSound;
 
     private void Awake()
